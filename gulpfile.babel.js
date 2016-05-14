@@ -8,10 +8,10 @@ import plumber from 'gulp-plumber';
 gulp.task('default', ['watch']);
 
 gulp.task('watch', ['server', 'extension'], function () {
-    gulp.watch('./server/src/**/*.js', () => {
+    gulp.watch('./server/src/**/*', () => {
         gulp.start('server');
     });
-    gulp.watch('./extension/src/**/*.js', () => {
+    gulp.watch('./extension/src/**/*', () => {
         gulp.start('extension');
     });
 });
