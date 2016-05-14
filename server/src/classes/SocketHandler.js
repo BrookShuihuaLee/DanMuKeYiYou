@@ -30,7 +30,7 @@ export default class SocketHandler {
         this._connect();
         socket.on('disconnect', this._disconnect.bind(this));
         socket.on('openUrl', this._openUrl.bind(this));
-        socket.on('levelUrl', this._levelUrl.bind(this));
+        socket.on('leaveUrl', this._leaveUrl.bind(this));
         socket.on('addMessage', this._addMessage.bind(this));
         socket.on('getOldMessages', this._getOldMessages.bind(this));
     }
@@ -48,7 +48,7 @@ export default class SocketHandler {
         this.openingUrlSet.add(url);
     }
 
-    _levelUrl(url) {
+    _leaveUrl(url) {
         let handlerSet = urlToHandlersMap.get(url);
         if (!handlerSet) return;
         handlerSet.delete(this);
@@ -59,7 +59,7 @@ export default class SocketHandler {
     _disconnect() {
         console.log(`${this.socket.id} disconnect`);
         for (let url of this.openingUrlSet) {
-            this._levelUrl(url);
+            this._leaveUrl(url);
         }
     }
 
