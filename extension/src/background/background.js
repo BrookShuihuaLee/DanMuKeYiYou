@@ -25,9 +25,18 @@ socket.on('oldMessages', oldMessages => {
 
 chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.tag === MESSAGE_TAG) return;
-    //const
-    //    url = sender.tab.url,
-    //    tabId = sender.tab.id,
-    //    tabIdSet = urlToTabIdsMap.get(url);
+    if (message.tag === 'popup') {
+        console.log(message, sender);
+        return;
+    }
+    const
+       url = sender.tab.url,
+       tabId = sender.tab.id;
+    
+    if (!urlToTabIdsMap.has(url)) {
+        urlToTabIdsMap.set(url, new Set());
+    } 
+    let tabIdSet = urlToTabIdsMap.get(url);
+    tabIdSet.add(tabId);
     console.log(message, sender);
 });
