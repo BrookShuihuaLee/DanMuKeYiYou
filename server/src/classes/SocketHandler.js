@@ -14,11 +14,12 @@ export default class SocketHandler {
         });
     }
 
-    static addMessage(message) {
+    static addMessage(message, fromHandler) {
         dbHandler.addMessage(message);
         let handlerSet = urlToHandlersMap.get(message.url);
         if (!handlerSet) return;
         for (let handler of handlerSet) {
+            if (handler === fromHandler) continue;
             handler.sendMessage(message);
         }
     }
@@ -63,12 +64,20 @@ export default class SocketHandler {
         }
     }
 
-    _addMessage(message = {}) {
-        SocketHandler.addMessage(message);
+    _addMessage(message) {
+        if (message
+            && message.url
+            && message.text
+            && message.color
+            && message.fontSize
+            && message.direction
+        ) SocketHandler.addMessage(message, this);
     }
 
     _getOldMessages(url) {
-        this.sendOldMessages(dbHandler.getOldMessages(url));
+        dbHandler.getOldMessages(url)
+            .then(this.sendOldMessages.bind(this))
+            .catch(console.log);
     }
 
     //发送事件

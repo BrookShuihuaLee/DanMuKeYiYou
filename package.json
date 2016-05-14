@@ -4,6 +4,7 @@
   "description": "弹幕可以有",
   "main": "index.js",
   "dependencies": {
+    "mongorito": "^2.0.0",
     "socket.io": "^1.4.6"
   },
   "devDependencies": {

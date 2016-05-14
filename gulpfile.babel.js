@@ -17,7 +17,7 @@ gulp.task('watch', ['server', 'extension'], function () {
 });
 
 gulp.task('copy_server', () => {
-    return gulp.src('./server/src/**/*')
+    return gulp.src('./server/src/**/*', { read: false })
         .pipe(gulp.dest('./server/dist'))
 });
 
@@ -34,7 +34,7 @@ gulp.task('server', ['copy_server'], () => {
 });
 
 gulp.task('copy_ext', () => {
-    return gulp.src('./extension/src/**/*')
+    return gulp.src('./extension/src/**/*', { read: false })
         .pipe(gulp.dest('./extension/dist'))
 });
 

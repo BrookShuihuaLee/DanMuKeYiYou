@@ -12,6 +12,6 @@ const
 
 SocketHandler.init(io);
 
-server.listen(config.port, () => {
-    console.log(`listening on *:${config.port}`);
+server.listen(config.PORT, () => {
+    console.log(`listening on *:${config.PORT}`);
 });
