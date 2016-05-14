@@ -38,7 +38,6 @@ function sendMessage() {
                 direction,
                 color,
                 fontSize: size,
-                tabId: tab.id,
                 url: tab.url
             });
         });
