@@ -2,6 +2,8 @@
  * Created by Brook on 2016/5/14.
  */
 import DBHandler from './DBHandler.js';
+import Message from './Message.js';
+
 const
     dbHandler = new DBHandler(),
     urlToHandlersMap = new Map();
@@ -65,13 +67,8 @@ export default class SocketHandler {
     }
 
     _addMessage(message) {
-        if (message
-            && message.url
-            && message.text
-            && message.color
-            && message.fontSize
-            && message.direction
-        ) SocketHandler.addMessage(message, this);
+        if (message && Message._validateObject(message))
+            SocketHandler.addMessage(message, this);
     }
 
     _getOldMessages(url) {
@@ -89,4 +86,4 @@ export default class SocketHandler {
     sendOldMessages(oldMessages) {
         this.socket.emit('oldMessages', oldMessages);
     }
-};
+}

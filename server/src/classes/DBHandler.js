@@ -2,32 +2,13 @@
  * Created by Brook on 2016/5/14.
  */
 import config from '../config.js';
-import mongorito, { Model } from 'mongorito';
-
-class Message extends Model {
-    static _toObject(message) {
-        return ModelToObject(message, ['url', 'text', 'fontSize', 'direction']);
-    }
-}
-
-function ModelToObject(m, attributes) {
-    let o = {};
-    for (let attribute of attributes) {
-        o[attribute] = m.get(attribute);
-    }
-    return o;
-}
+import mongorito from 'mongorito';
+import Message from './Message.js';
 
 export default class {
     constructor() {
         mongorito.connect(config.MONGO_URL);
         this._removingOldMessages = new Set();
-        for (let i = 0; i < 100; i++) {
-            this.addMessage({
-                url: 'haha',
-                text: 'jjjjj'
-            });
-        }
     }
 
     addMessage(message) {
