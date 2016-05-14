@@ -1,12 +1,14 @@
 /**
  * Created by Brook on 2016/5/14.
  */
+import config from './config.js';
+import http from 'http';
+import socketIO from 'socket.io';
+import SocketHandler from './classes/SocketHandler.js';
+
 const
-    config = require('./config.js'),
-    http = require('http'),
     server = http.createServer(),
-    io = require('socket.io')(server),
-    SocketHandler = require('./classes/SocketHandler.js');
+    io = socketIO(server);
 
 SocketHandler.init(io);
 

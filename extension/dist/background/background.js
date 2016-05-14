@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Created by Brook on 2016/5/14.
  */
@@ -10,4 +12,10 @@ socket.on('message', function (message) {
 });
 socket.on('oldMessages', function (oldMessages) {
     console.log(oldMessages);
+});
+
+chrome.runtime.onMessage.addListener(function (message, sender) {
+    var url = sender.tab.url,
+        tabId = sender.tab.id;
+    console.log(url, tabId);
 });

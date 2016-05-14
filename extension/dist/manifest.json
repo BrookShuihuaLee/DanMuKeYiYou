@@ -1,0 +1,34 @@
+{
+  "name": "弹幕可以有",
+  "version": "0.1",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_title": "弹幕可以有",
+    "default_icon": "./images/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "css": [
+        "./contentScripts/danMuKeYiYou.css"
+      ],
+      "js": [
+        "./contentScripts/danMuKeYiYou.js"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": [
+      "./lib/socket.io.js",
+      "./background/background.js"
+    ]
+  },
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ]
+}

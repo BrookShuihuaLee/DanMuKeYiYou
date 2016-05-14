@@ -1,6 +1,6 @@
 /**
  * Created by Brook on 2016/5/14.
  */
-module.exports = {
+export default {
     port: 15434
 };

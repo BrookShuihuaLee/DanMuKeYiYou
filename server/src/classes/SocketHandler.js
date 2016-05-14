@@ -1,12 +1,12 @@
 /**
  * Created by Brook on 2016/5/14.
  */
+import DBHandler from './DBHandler.js';
 const
-    DBHandler = require('./DBHandler.js'),
     dbHandler = new DBHandler(),
     urlToHandlersMap = new Map();
 
-module.exports = class SocketHandler {
+export default class SocketHandler {
 
     static init(io) {
         io.on('connection', (socket) => {
