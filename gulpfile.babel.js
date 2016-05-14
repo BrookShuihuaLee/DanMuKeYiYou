@@ -8,10 +8,10 @@ import plumber from 'gulp-plumber';
 gulp.task('default', ['watch']);
 
 gulp.task('watch', ['server', 'extension'], function () {
-    gulp.watch('./server/src/**/*.js', () => {
+    gulp.watch('./server/src/**/*', () => {
         gulp.start('server');
     });
-    gulp.watch('./extension/src/**/*.js', () => {
+    gulp.watch('./extension/src/**/*', () => {
         gulp.start('extension');
     });
 });
@@ -39,7 +39,10 @@ gulp.task('copy_ext', () => {
 });
 
 gulp.task('extension', ['copy_ext'], () => {
-    return gulp.src('./extension/src/**/*.js')
+    return gulp.src([
+            './extension/src/**/*.js',
+            '!extension/src/lib/socket.io.js'
+        ])
         .pipe(plumber({
             errorHandler: function (err) {
                 console.log(err);
