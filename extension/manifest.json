@@ -7,7 +7,7 @@
     "name": "click to download"
   },
   "background": {
-    "scripts": ["./background/index.js"]
+    "scripts": ["./lib/socket.io.js", "./background/background.js"]
   },
   "permissions": [
     "tabs",

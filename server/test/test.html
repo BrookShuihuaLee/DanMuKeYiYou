@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test socket.io</title>
+    <script src="http://localhost:15434/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost:15434');
+        socket.on('connect', function () {
+            socket.emit('getOldMessages', 'www.baidu.com');
+        });
+        socket.on('message', function (message) {
+            console.log(message);
+        });
+        socket.on('oldMessages', function (oldMessages) {
+            console.log(oldMessages);
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
