@@ -1,10 +1,21 @@
 /**
  * Created by Brook on 2016/5/14.
  */
-const socket = io('http://localhost:15434');
+const
+    socket = io('http://localhost:15434'),
+    urlToTabIdsMap = new Map(),
+    MESSAGE_TAG = 'background';
+
+let isConected = false;
+
 socket.on('connect', () => {
-    socket.emit('getOldMessages', 'www.baidu.com');
+    isConected = true;
 });
+
+socket.on('disconnect', () => {
+    isConected = false;
+});
+
 socket.on('message', message => {
     console.log(message);
 });
@@ -13,7 +24,10 @@ socket.on('oldMessages', oldMessages => {
 });
 
 chrome.runtime.onMessage.addListener((message, sender) => {
-    var url = sender.tab.url,
-        tabId = sender.tab.id;
-    console.log(url, tabId);
+    if (message.tag === MESSAGE_TAG) return;
+    //const
+    //    url = sender.tab.url,
+    //    tabId = sender.tab.id,
+    //    tabIdSet = urlToTabIdsMap.get(url);
+    console.log(message, sender);
 });

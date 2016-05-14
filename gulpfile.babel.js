@@ -3,20 +3,39 @@
  */
 import gulp from 'gulp';
 import babel from 'gulp-babel';
-import watch from 'gulp-watch';
+import plumber from 'gulp-plumber';
 
-gulp.task('default', ['server', 'extension']);
+gulp.task('default', ['watch']);
+
+gulp.task('watch', ['server', 'extension'], function () {
+    gulp.watch('./server/src/**/*.js', () => {
+        gulp.start('server');
+    });
+    gulp.watch('./extension/src/**/*.js', () => {
+        gulp.start('extension');
+    });
+});
 
 gulp.task('server', () => {
     return gulp.src('./server/src/**')
-        .pipe(watch('./server/src/**'))
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
         .pipe(babel())
         .pipe(gulp.dest('./server/dist'));
 });
 
 gulp.task('extension', () => {
     return gulp.src('./extension/src/**')
-        .pipe(watch('./extension/src/**'))
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
         .pipe(babel())
         .pipe(gulp.dest('./extension/dist'));
 });

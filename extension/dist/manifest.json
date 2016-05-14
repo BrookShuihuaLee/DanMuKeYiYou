@@ -4,7 +4,8 @@
   "manifest_version": 2,
   "browser_action": {
     "default_title": "弹幕可以有",
-    "default_icon": "./images/icon.png"
+    "default_icon": "./images/icon.png",
+    "default_popup": "./popup/popup.html"
   },
   "content_scripts": [
     {
