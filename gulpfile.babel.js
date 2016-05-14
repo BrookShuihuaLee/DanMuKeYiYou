@@ -16,8 +16,13 @@ gulp.task('watch', ['server', 'extension'], function () {
     });
 });
 
-gulp.task('server', () => {
-    return gulp.src('./server/src/**')
+gulp.task('copy_server', () => {
+    return gulp.src('./server/src/**/*')
+        .pipe(gulp.dest('./server/dist'))
+});
+
+gulp.task('server', ['copy_server'], () => {
+    return gulp.src('./server/src/**/*.js')
         .pipe(plumber({
             errorHandler: function (err) {
                 console.log(err);
@@ -28,8 +33,13 @@ gulp.task('server', () => {
         .pipe(gulp.dest('./server/dist'));
 });
 
-gulp.task('extension', () => {
-    return gulp.src('./extension/src/**')
+gulp.task('copy_ext', () => {
+    return gulp.src('./extension/src/**/*')
+        .pipe(gulp.dest('./extension/dist'))
+});
+
+gulp.task('extension', ['copy_ext'], () => {
+    return gulp.src('./extension/src/**/*.js')
         .pipe(plumber({
             errorHandler: function (err) {
                 console.log(err);
