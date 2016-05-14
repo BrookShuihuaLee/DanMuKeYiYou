@@ -39,7 +39,10 @@ gulp.task('copy_ext', () => {
 });
 
 gulp.task('extension', ['copy_ext'], () => {
-    return gulp.src('./extension/src/**/*.js')
+    return gulp.src([
+            './extension/src/**/*.js',
+            '!extension/src/lib/socket.io.js'
+        ])
         .pipe(plumber({
             errorHandler: function (err) {
                 console.log(err);
