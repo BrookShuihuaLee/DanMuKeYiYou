@@ -1,0 +1,21 @@
+body {
+    width: 300px;
+}
+#colors > div {
+    display: inline-block;
+    cursor: pointer;
+}
+#colors > div > span {
+    width: 15px;
+    height: 15px;
+    display: block;
+}
+#colors > .active {
+    border: 1px solid #ccc;
+    padding: 1px;
+    margin: -1px;
+}
+#colors > .active > span {
+    width: 13px;
+    height: 13px;
+}
