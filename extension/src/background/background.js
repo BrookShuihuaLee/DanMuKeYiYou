@@ -66,6 +66,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         if (!urlToTabIdsMap.has(url)) {
             window._SOCKET_HANDLER.setMessageListener(url, msg => {
                 sendOneMessageToTab(msg);
+                urlMessages.get(msg.url).add(msg);
             });
             window._SOCKET_HANDLER.getOldMessages(url).then(ms => {
                 if (ms) {
