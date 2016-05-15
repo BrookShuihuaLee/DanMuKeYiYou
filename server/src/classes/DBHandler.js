@@ -26,6 +26,7 @@ export default class {
             url: url
         }).then(num => {
             if (num >= (config.MAX_MESSAGE_NUM_OF_SINGLE_URL << 1)) {
+                console.log(`移除${url}的${num >> 1}条数据`);
                 return Message
                     .sort({
                         updated_at: 1
@@ -62,4 +63,4 @@ export default class {
                 return Promise.resolve(oldMessages.map(Message._toObject));
             });
     }
-};
+}
