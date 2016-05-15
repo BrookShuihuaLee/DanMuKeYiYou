@@ -32,7 +32,7 @@ function removeTab(tabId) {
         if (urlToTabIdsMap.has(url)) {
             urlToTabIdsMap.get(url).delete(tabId);
             if (urlToTabIdsMap.get(url).size === 0) {
-                window._SOCKET_HANDLER.leaveUrl(url);
+                window._SOCKET_HANDLER.deleteMessageListener(url);
                 urlToTabIdsMap.delete(url);
                 let intervalId = urlClears.get(url);
                 clearInterval(intervalId);
@@ -64,7 +64,9 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         removeTab(tabId);
         tabIdToUrl.set(tabId, url);
         if (!urlToTabIdsMap.has(url)) {
-            window._SOCKET_HANDLER.openUrl(url);
+            window._SOCKET_HANDLER.setMessageListener(url, msg => {
+                sendOneMessageToTab(msg);
+            });
             window._SOCKET_HANDLER.getOldMessages(url).then(ms => {
                 if (ms) {
                     urlMessages.set(url, ms);
