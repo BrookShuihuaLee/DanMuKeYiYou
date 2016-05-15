@@ -1,21 +1,129 @@
 body {
     width: 300px;
+    background: linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,1)), url('../images/popup-bg.jpg');
+    background-size: cover;
+    margin: 0px;
 }
+
+#enable-div {
+    text-align: right;
+}
+
+label {
+    display: block;
+    text-align: center;
+    margin: 10px 0px;
+}
+
+label > span {
+    font-size: 18px;
+    letter-spacing: 5px;
+    border-radius: 15px;
+    padding: 0px 10px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+label > div {
+    height: 2px;
+    width: 100px;
+    display: inline-block;
+    background: rgb(200, 213, 219);
+    vertical-align: middle;
+    margin: 5px;
+}
+
+#size {
+    text-align: center;
+}
+
+#size > span {
+    margin: 10px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border: solid 2px rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+#size > .active {
+    border: solid 2px #FAA;
+}
+
+#direction {
+    text-align: center;
+}
+
+#direction > span {
+    margin: 10px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border: solid 2px rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+#direction > .active {
+    border: solid 2px #FAA;
+}
+
+#colors {
+    text-align: center;
+}
+
 #colors > div {
+    width: 20px;
+    height: 20px;
     display: inline-block;
     cursor: pointer;
 }
 #colors > div > span {
-    width: 15px;
-    height: 15px;
+    width: 100%;
+    height: 100%;
     display: block;
+    border-radius: 10px;
 }
 #colors > .active {
-    border: 1px solid #ccc;
-    padding: 1px;
-    margin: -1px;
+    background: radial-gradient(red, white);
+    border-radius: 10px;
 }
 #colors > .active > span {
-    width: 13px;
-    height: 13px;
+    width: 50%;
+    height: 50%;
+    margin: 25%;
+}
+
+#tip-for-content {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#tip-for-content > span {
+    color: red;
+}
+
+#content {
+    padding: 5px;
+    width: 100%;
+    height: 37px;
+    font-size: 16px;
+}
+
+#sender {
+    text-align: center;
+    margin: 10px;
+}
+
+button {
+    background: rgba(0, 0, 0, 0);
+    font-weight: bold;
+    border-radius: 5px;
+    text-transform: none;
+    font-size: 18px;
+    box-shadow: 0 0 0 1px rgba(34,36,38,.15);
 }
