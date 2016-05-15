@@ -25,6 +25,7 @@
     "scripts": [
       "./lib/socket.io.js",
       "./background/OptionsHandler.js",
+      "./background/SocketHandler.js",
       "./background/background.js"
     ]
   },

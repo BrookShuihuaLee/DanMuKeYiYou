@@ -73,7 +73,7 @@ export default class SocketHandler {
 
     _getOldMessages(url) {
         dbHandler.getOldMessages(url)
-            .then(this.sendOldMessages.bind(this))
+            .then(this.sendOldMessages.bind(this, url))
             .catch(console.log);
     }
 
@@ -83,7 +83,7 @@ export default class SocketHandler {
         this.socket.emit('message', message);
     }
 
-    sendOldMessages(oldMessages) {
-        this.socket.emit('oldMessages', oldMessages);
+    sendOldMessages(url, oldMessages) {
+        this.socket.emit('oldMessages', url, oldMessages);
     }
 }
