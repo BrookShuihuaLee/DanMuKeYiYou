@@ -6,7 +6,7 @@ const WAIT_OPTIONS_TIME = 10;
 window._OPTIONS_HANDLER = new class {
     constructor() {
         this._getOptionsFromChrome();
-        chrome.storage.onChange.addListener(this._getOptionsFromChrome.bind(this));
+        chrome.storage.onChanged.addListener(this._getOptionsFromChrome.bind(this));
     }
 
     _getOptionsFromChrome() {
