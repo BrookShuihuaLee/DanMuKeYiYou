@@ -54,7 +54,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             delete message['tag'];
             sendOneMessageToTab(message, msg => {
                 window._SOCKET_HANDLER.addMessage(msg)
-                urlMessages.get(msg.url).add(msg);
+                urlMessages.get(msg.url).push(msg);
             });
         }
     } else { // page
@@ -66,7 +66,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         if (!urlToTabIdsMap.has(url)) {
             window._SOCKET_HANDLER.setMessageListener(url, msg => {
                 sendOneMessageToTab(msg);
-                urlMessages.get(msg.url).add(msg);
+                urlMessages.get(m.url).push(msg);
             });
             window._SOCKET_HANDLER.getOldMessages(url).then(ms => {
                 if (ms) {
