@@ -59,4 +59,12 @@ window._SOCKET_HANDLER = new class {
     addMessage(message) {
         this.socket.emit('addMessage', message);
     }
+    
+    openUrl(url) {
+        this.socket.emit('openUrl', url);
+    }
+    
+    leaveUrl(url) {
+        this.socket.emit('leaveUrl', url);
+    }
 };
