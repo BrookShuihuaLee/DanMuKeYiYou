@@ -24,11 +24,13 @@
   "background": {
     "scripts": [
       "./lib/socket.io.js",
+      "./background/OptionsHandler.js",
       "./background/background.js"
     ]
   },
   "permissions": [
     "tabs",
+    "storage",
     "http://*/*",
     "https://*/*"
   ]
