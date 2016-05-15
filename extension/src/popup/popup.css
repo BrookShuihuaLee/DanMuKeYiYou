@@ -51,6 +51,10 @@ label > div {
     border: solid 2px #FAA;
 }
 
+#size > span {
+    cursor: pointer;
+}
+
 #direction {
     text-align: center;
 }
@@ -68,6 +72,10 @@ label > div {
 
 #direction > .active {
     border: solid 2px #FAA;
+}
+
+#direction > span {
+    cursor: pointer;
 }
 
 #colors {

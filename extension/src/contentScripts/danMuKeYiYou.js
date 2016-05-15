@@ -22,8 +22,9 @@ function fly(message) {
     div.style.fontSize = `${message.fontSize}px`;
     div.innerText = message.text;
     div.style.position = 'fixed';
-    div.style[message.direction] = 0;
+    div.style.zIndex =  '2147483647';
     document.body.insertBefore(div, null);
+    div.style[message.direction] = `-${div.clientWidth}px`;
     let top = (window.innerHeight - div.clientHeight)                
     div.style.top = `${(Math.random() * top)}px`;
     div.style.display = '';

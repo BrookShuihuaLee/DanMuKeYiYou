@@ -11,15 +11,16 @@ const
 let options = {};
 
 function getOptions() {
-    window._OPTIONS_HANDLER.getOptions().done(res => {
+    window._OPTIONS_HANDLER.getOptions().then(res => {
         options = res;
         chrome.runtime.sendMessage({
             tag: MESSAGE_TAG,
-            options: options
+            event: 'options',
+            options
         });
     });
 }
-
+getOptions();
 function saveOptions(opts) {
     options = opts;
     window._OPTIONS_HANDLER.setOptions(options);
@@ -64,7 +65,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         tabIdToUrl.set(tabId, url);
         if (!urlToTabIdsMap.has(url)) {
             window._SOCKET_HANDLER.openUrl(url);
-            window._SOCKET_HANDLER.getOldMessages(url).done(ms => {
+            window._SOCKET_HANDLER.getOldMessages(url).then(ms => {
                 if (ms) {
                     urlMessages.set(url, ms);
                 } else {
