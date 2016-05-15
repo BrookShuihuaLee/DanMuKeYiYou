@@ -44,7 +44,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         tabId = sender.tab.id;
         
         if (!urlToTabIdsMap.has(url)) {
-            emit.
+            socket.emit('openurl', url);
             urlToTabIdsMap.set(url, new Set());
         } 
         let tabIdSet = urlToTabIdsMap.get(url);
