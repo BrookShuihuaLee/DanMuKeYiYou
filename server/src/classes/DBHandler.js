@@ -52,6 +52,9 @@ export default class {
 
     getOldMessages(url) {
         return Message
+            .sort({
+                updated_at: -1
+            })
             .limit(config.MAX_MESSAGE_NUM_OF_SINGLE_URL)
             .find({
                 url: url
