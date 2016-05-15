@@ -15,7 +15,8 @@ function saveOptions() {
             direction,
             enable
         }
-    })
+    });
+    renderOptions();
 }
 
 let remainText = 15;
@@ -38,28 +39,6 @@ document.getElementById('size').addEventListener('click', e => {
     let t = e.target;
     fontSize = t.attributes.value.value;
     saveOptions();
-    
-    switch (fontSize) {
-        case '48':
-            setTextNum(20);
-            remainText = 20;
-            break;
-        case '60':
-            setTextNum(15);
-            remainText = 15;
-            break;
-        case '72':
-            setTextNum(10);
-            remainText = 10;
-            break;
-        default:
-            setTextNum(15);
-            remainText = 15;
-    }
-    
-    let spans = [...document.getElementById('size').children]
-    spans.forEach(d => d.className = '');
-    t.className = 'active';
 });
 
 document.getElementById('direction').addEventListener('click', e => {
@@ -69,10 +48,6 @@ document.getElementById('direction').addEventListener('click', e => {
     let t = e.target;
     direction = t.attributes.value.value;
     saveOptions();
-    
-    let spans = [...document.getElementById('direction').children]
-    spans.forEach(d => d.className = '');
-    t.className = 'active';
 });
 
 document.getElementById('colors').addEventListener('click', e => {
@@ -85,13 +60,11 @@ document.getElementById('colors').addEventListener('click', e => {
     }
     color = t.style.backgroundColor;
     saveOptions();
-    
-    let colorDivs = [...document.getElementById('colors').children];
-    colorDivs.forEach(d => d.className = '')
-    t.parentElement.className = 'active';
 });
 
 function sendMessage() {
+    enable = true;
+    saveOptions();
     let text = document.getElementById('content').value.trim();
     if (text && text.length <= remainText) {
         document.getElementById('content').value = '';
@@ -122,9 +95,61 @@ document.getElementById('btn').addEventListener('click', e => {
     sendMessage();
 });
 
+document.getElementById('enable-div').addEventListener('click', e => {
+    enable = !enable;
+    saveOptions(); 
+});
+
+function renderOptions() {
+    [...document.getElementById('size').children].forEach(e => {
+        if (e.attributes.value.value === fontSize) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
+    [...document.getElementById('direction').children].forEach(e => {
+        if (e.attributes.value.value === direction) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
+    [...document.getElementById('colors').children].forEach(e => {
+        if (e.children[0].style.backgroundColor === color) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
+    document.getElementById('enable-toggle').innerText = enable ? '关' : '开';
+    
+    switch (fontSize) {
+        case '48':
+            setTextNum(20);
+            remainText = 20;
+            break;
+        case '60':
+            setTextNum(15);
+            remainText = 15;
+            break;
+        case '72':
+            setTextNum(10);
+            remainText = 10;
+            break;
+        default:
+            setTextNum(15);
+            remainText = 15;
+    }
+}
+
 chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.event === 'options') {
         ({enable, color, fontSize, direction} = message.options);
+        renderOptions();
     }
     console.log('sdfsdfsd', message, sender);
 });

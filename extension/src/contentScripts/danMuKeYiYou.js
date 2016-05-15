@@ -3,6 +3,7 @@
  */
 console.log('弹幕可以有');
 const MESSAGE_TAG = 'page';
+let uids = new Set();
 
 chrome.runtime.sendMessage({
     tag: MESSAGE_TAG
@@ -10,10 +11,13 @@ chrome.runtime.sendMessage({
 
 chrome.runtime.onMessage.addListener((message, sender) => {
     console.log(message, sender);
-    fly(message);
+    if (!uids.has(message.uid)) {
+        fly(message);
+    }
 })
 
 function fly(message) {
+    uids.add(message.uid);    
     var div = document.createElement('div');
     div.className = 'dm--bullet'
     div.style.display = 'inline-block';
@@ -33,6 +37,7 @@ function fly(message) {
         function move() {
             if (parseFloat(div.style[direction]) >= window.innerWidth) {
                 clearInterval(intervalId)
+                uids.delete(message.uid);
             } else {
                 div.style[direction] = `${(parseFloat(div.style[direction]) + n)}px`;
             }

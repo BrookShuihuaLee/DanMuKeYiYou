@@ -10,6 +10,10 @@ const
 
 let options = {};
 
+function uid() {
+    return parseInt(Math.random() * 0xffffffff);
+}
+
 function getOptions() {
     window._OPTIONS_HANDLER.getOptions().then(res => {
         options = res;
@@ -52,10 +56,12 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             saveOptions(message.options);
         } else {
             delete message['tag'];
-            sendOneMessageToTab(message, msg => {
-                window._SOCKET_HANDLER.addMessage(msg)
-                urlMessages.get(msg.url).push(msg);
-            });
+            if (!urlMessages.has(message.url)) {
+                chrome.tabs.reload();
+            } else {
+                urlMessages.get(message.url).unshift(message);
+            }
+            window._SOCKET_HANDLER.addMessage(message)
         }
     } else { // page
         const
@@ -65,8 +71,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         tabIdToUrl.set(tabId, url);
         if (!urlToTabIdsMap.has(url)) {
             window._SOCKET_HANDLER.setMessageListener(url, msg => {
-                sendOneMessageToTab(msg);
-                urlMessages.get(m.url).push(msg);
+                urlMessages.get(msg.url).unshift(msg);
             });
             window._SOCKET_HANDLER.getOldMessages(url).then(ms => {
                 if (ms) {
@@ -74,7 +79,6 @@ chrome.runtime.onMessage.addListener((message, sender) => {
                 } else {
                     urlMessages.set(url, []);
                 }
-                pushMessageToTab(url);
             });
             urlToTabIdsMap.set(url, new Set());
         }
@@ -84,27 +88,23 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
 chrome.tabs.onRemoved.addListener(removeTab);
 
-function sendOneMessageToTab(message, extra) {
-    let tabIdSet = urlToTabIdsMap.get(message.url);
-    if (tabIdSet) {
-        tabIdSet.forEach(tabId => {
-                chrome.tabs.sendMessage(tabId, message);
-        });
-        if (extra) {
-            extra(message);
-        }
+setInterval(() => {
+    if (options.enable) {
+        chrome.tabs.query({active: true}, tabs => {
+            tabs.forEach(tab => {
+                if (!urlMessages.has(tab.url)) {
+                    return;
+                }
+                let message = urlMessages.get(tab.url).shift();
+                    if (message) {
+                    if (!message.uid) {
+                        message.uid = uid();
+                    }
+                    chrome.tabs.sendMessage(tab.id, message);
+                    urlMessages.get(tab.url).push(message);
+                }
+            })
+        })
     }
-}
+}, 1000);
 
-function pushMessageToTab(url) {
-    if (urlMessages.has(url)) {
-        let intervalId = setInterval(() => {
-            let msg = urlMessages.get(url).shift();
-            if (options.enable && msg) {
-                sendOneMessageToTab(msg);
-                urlMessages.get(url).push(msg);
-            }
-        }, 1000);
-        urlClears.set(url, intervalId);
-    }
-}
