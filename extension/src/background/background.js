@@ -8,6 +8,23 @@ const
     urlClears = new Map(),
     MESSAGE_TAG = 'background';
 
+let options = {};
+
+function getOptions() {
+    window._OPTIONS_HANDLER.getOptions().done(res => {
+        options = res;
+        chrome.runtime.sendMessage({
+            tag: MESSAGE_TAG,
+            options: options
+        });
+    });
+}
+
+function saveOptions(opts) {
+    options = opts;
+    window._OPTIONS_HANDLER.setOptions(options);
+}
+
 function removeTab(tabId) {
     if (tabIdToUrl.has(tabId)) {
         let url = tabIdToUrl.get(tabId);
@@ -27,13 +44,18 @@ function removeTab(tabId) {
 
 chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.tag === MESSAGE_TAG) return;
-    if (message.tag === 'popup') {       
-        delete message['tag'];
-        sendOneMessageToTab(message, msg => {
-            window._SOCKET_HANDLER.addMessage(msg)
-            urlMessages.get(msg.url).add(msg);
-        });
-        return;
+    if (message.tag === 'popup') {
+        if (message.event === 'loaded') {
+            getOptions();
+        } else if (message.event === 'options') {
+            saveOptions(message.options);
+        } else {
+            delete message['tag'];
+            sendOneMessageToTab(message, msg => {
+                window._SOCKET_HANDLER.addMessage(msg)
+                urlMessages.get(msg.url).add(msg);
+            });
+        }
     } else { // page
         const
             url = sender.tab.url,
@@ -71,10 +93,10 @@ function sendOneMessageToTab(message, extra) {
 }
 
 function pushMessageToTab(url) {
-    if (!urlMessages.has(url)) {
+    if (urlMessages.has(url)) {
         let intervalId = setInterval(() => {
             let msg = urlMessages.get(url).shift();
-            if (msg) {
+            if (options.enable && msg) {
                 sendOneMessageToTab(msg);
                 urlMessages.get(url).push(msg);
             }

@@ -57,3 +57,8 @@ document.getElementById('btn').addEventListener('click', e => {
 chrome.runtime.onMessage.addListener((message, sender) => {
     console.log(message, sender);
 });
+
+chrome.runtime.sendMessage({
+    tag: MESSAGE_TAG,
+    event: 'loaded'
+});
