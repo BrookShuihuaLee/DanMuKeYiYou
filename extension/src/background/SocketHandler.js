@@ -9,7 +9,7 @@ window._SOCKET_HANDLER = new class {
         this.urlToMessageListenerMap = new Map();
         this.urlToOldMessagesCBMap = new Map();
 
-        this.socket = window.io('http://localhost:15434');
+        this.socket = window.io('http://192.168.1.144:15434');
         this.socket.on('connect', this._connect.bind(this));
         this.socket.on('disconnect', this._disconnect.bind(this));
         this.socket.on('message', this._message.bind(this));
