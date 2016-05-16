@@ -66,6 +66,7 @@ function sendMessage() {
     enable = true;
     saveOptions();
     let text = document.getElementById('content').value.trim();
+    text = text.replace('\n', '');
     if (text && text.length <= remainText) {
         document.getElementById('content').value = '';
         chrome.tabs.query({active: true, currentWindow: true}, tabs => {

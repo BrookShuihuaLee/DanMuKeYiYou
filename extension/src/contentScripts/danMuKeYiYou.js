@@ -19,18 +19,15 @@ function fly(message) {
     uids.add(message.uid);    
     let div = document.createElement('div');
     div.className = 'dm--bullet';
-    div.style.display = 'inline-block';
-    div.style.whiteSpace = 'nowrap';
     div.style.color = message.color;
     div.style.fontSize = `${message.fontSize}px`;
-    div.innerText = message.text;
-    div.style.position = 'fixed';
-    div.style.zIndex =  '2147483647';
-    document.body.insertBefore(div, null);
     div.style[message.direction] = `-${div.clientWidth}px`;
+    div.innerText = message.text;
+    
+    document.body.insertBefore(div, null);
+    
     let top = (window.innerHeight - div.clientHeight);
     div.style.top = `${(Math.random() * top)}px`;
-    div.style.display = '';
 
     (function(direction, duration) {
         let startDate = new Date(),
