@@ -5,8 +5,8 @@ body {
     margin: 0px;
 }
 
-#enable-div {
-    text-align: left;
+#about {
+    float: right;
 }
 
 label {

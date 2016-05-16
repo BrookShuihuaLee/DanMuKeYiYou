@@ -1,3 +1,7 @@
+document.getElementById('about').addEventListener('click', () => {
+    window.open('http://brookshuihualee.github.io/DanMuKeYiYou/');
+});
+
 const MESSAGE_TAG = 'popup';
 
 let color = '#000';
@@ -97,7 +101,7 @@ document.getElementById('btn').addEventListener('click', e => {
     sendMessage();
 });
 
-document.getElementById('enable-div').addEventListener('click', e => {
+document.getElementById('enable-toggle').addEventListener('click', e => {
     enable = !enable;
     saveOptions(); 
 });
