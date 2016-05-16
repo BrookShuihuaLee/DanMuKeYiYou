@@ -76,7 +76,8 @@ function sendMessage() {
                 direction,
                 color,
                 fontSize,
-                url: tab.url
+                url: tab.url,
+                tabId: tab.id
             });
         });
         setTextNum();

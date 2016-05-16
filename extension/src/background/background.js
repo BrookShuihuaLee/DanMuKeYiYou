@@ -6,7 +6,8 @@ const
     tabIdToUrl = new Map(),
     urlMessages = new Map(),
     urlClears = new Map(),
-    MESSAGE_TAG = 'background';
+    MESSAGE_TAG = 'background',
+    MESSAGE_MAX_COUNT = 200;
 
 let options = {};
 
@@ -47,6 +48,13 @@ function removeTab(tabId) {
     }
 }
 
+function addMessageToOld(msg) {
+    urlMessages.get(msg.url).unshift(msg);
+    if (urlMessages.get(msg.url).length > MESSAGE_MAX_COUNT) {
+        urlMessages.get(msg.url).length = MESSAGE_MAX_COUNT;
+    }
+}
+
 chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.tag === MESSAGE_TAG) return;
     if (message.tag === 'popup') {
@@ -56,10 +64,12 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             saveOptions(message.options);
         } else {
             delete message['tag'];
-            if (!urlMessages.has(message.url)) {
+            let tabId = message['tabId']
+            delete message.tabId;
+            if (!tabIdToUrl.has(tabId)) {
                 chrome.tabs.reload();
             } else {
-                urlMessages.get(message.url).unshift(message);
+                addMessageToOld(message);
             }
             window._SOCKET_HANDLER.addMessage(message)
         }
@@ -71,13 +81,17 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         tabIdToUrl.set(tabId, url);
         if (!urlToTabIdsMap.has(url)) {
             window._SOCKET_HANDLER.setMessageListener(url, msg => {
-                urlMessages.get(msg.url).unshift(msg);
+                addMessageToOld(msg);
             });
+            urlMessages.set(url, []);
             window._SOCKET_HANDLER.getOldMessages(url).then(ms => {
-                if (ms) {
-                    urlMessages.set(url, ms);
-                } else {
-                    urlMessages.set(url, []);
+                if (urlMessages.has(url)) {
+                    if (ms) {
+                        urlMessages.set(url, urlMessages.get(url).concat(ms));
+                        if (urlMessages.get(url).length > MESSAGE_MAX_COUNT) {
+                            urlMessages.get(url).length = MESSAGE_MAX_COUNT;
+                        }
+                    }
                 }
             });
             urlToTabIdsMap.set(url, new Set());
