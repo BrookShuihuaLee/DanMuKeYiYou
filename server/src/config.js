@@ -3,6 +3,6 @@
  */
 export default {
     MONGO_URL: 'localhost/dmkyy',
-    PORT: 15434,
+    PORT: 18080,
     MAX_MESSAGE_NUM_OF_SINGLE_URL: 100
 };

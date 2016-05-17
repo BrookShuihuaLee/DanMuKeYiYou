@@ -1,6 +1,7 @@
 /**
  * Created by Brook on 2016/5/14.
  */
+import RECORDER from './Recorder.js';
 import config from '../config.js';
 import mongorito from 'mongorito';
 import Message from './Message.js';
@@ -12,6 +13,7 @@ export default class {
     }
 
     addMessage(message) {
+        RECORDER.addOneMessage();
         new Message(message)
             .save()
             .then(() => {
