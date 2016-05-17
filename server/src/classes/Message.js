@@ -23,4 +23,9 @@ export default class Message extends Model {
     static _toObject(message) {
         return ModelToObject(message, Message._getAttrs());
     }
+
+    static createIndexes() {
+        Message.index('url');
+        Message.index('updated_at');
+    }
 }

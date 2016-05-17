@@ -9,6 +9,7 @@ import Message from './Message.js';
 export default class {
     constructor() {
         mongorito.connect(config.MONGO_URL);
+        Message.createIndexes();
         this._removingOldMessages = new Set();
     }
 
