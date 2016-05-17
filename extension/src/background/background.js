@@ -110,7 +110,7 @@ setInterval(() => {
                     return;
                 }
                 let message = urlMessages.get(tab.url).shift();
-                    if (message) {
+                if (message) {
                     if (!message.uid) {
                         message.uid = uid();
                     }
