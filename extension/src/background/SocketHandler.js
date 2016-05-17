@@ -9,7 +9,8 @@ window._SOCKET_HANDLER = new class {
         this.urlToMessageListenerMap = new Map();
         this.urlToOldMessagesCBMap = new Map();
 
-        this.socket = window.io('http://192.168.1.144:18080');
+        this.socket = window.io('http://danmukyy.duapp.com');
+        //this.socket = window.io('http://192.168.1.144:18080');
         this.socket.on('connect', this._connect.bind(this));
         this.socket.on('disconnect', this._disconnect.bind(this));
         this.socket.on('message', this._message.bind(this));
