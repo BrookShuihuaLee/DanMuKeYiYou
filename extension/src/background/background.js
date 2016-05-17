@@ -69,7 +69,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             if (!tabIdToUrl.has(tabId)) {
                 chrome.tabs.reload();
             } else {
-                console.log('收到来自popup的message', message);
+                //console.log('收到来自popup的message', message);
                 addMessageToOld(message);
             }
             window._SOCKET_HANDLER.addMessage(message)
@@ -107,9 +107,10 @@ setInterval(() => {
     if (options.enable) {
         chrome.tabs.query({active: true}, tabs => {
             tabs.forEach(tab => {
-                if (!urlMessages.has(tab.url)) {
+                if (!tabIdToUrl.has(tab.id) || !urlMessages.has(tab.url)) {
                     return;
                 }
+                //console.log(urlMessages.get(tab.url).map((message) => message.text).join('=>'));
                 let message = urlMessages.get(tab.url).shift();
                 if (message) {
                     if (!message.uid) {

@@ -4,7 +4,7 @@
 
 const
     MESSAGE_TAG = 'page',
-    DEBUG = true,
+    DEBUG = false,
     DEBUG_LOG = (...args) => {
         if (DEBUG) console.log(...args);
     };
