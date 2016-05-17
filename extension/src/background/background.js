@@ -64,11 +64,12 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             saveOptions(message.options);
         } else {
             delete message['tag'];
-            let tabId = message['tabId']
+            let tabId = message.tabId;
             delete message.tabId;
             if (!tabIdToUrl.has(tabId)) {
                 chrome.tabs.reload();
             } else {
+                console.log('收到来自popup的message', message);
                 addMessageToOld(message);
             }
             window._SOCKET_HANDLER.addMessage(message)

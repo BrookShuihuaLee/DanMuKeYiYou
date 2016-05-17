@@ -1,8 +1,13 @@
 /**
  * Created by Brook on 2016/5/14.
  */
-console.log('弹幕可以有');
-const MESSAGE_TAG = 'page';
+
+const
+    MESSAGE_TAG = 'page',
+    DEBUG = true,
+    DEBUG_LOG = (...args) => {
+        if (DEBUG) console.log(...args);
+    };
 let uids = new Set();
 
 chrome.runtime.sendMessage({
@@ -10,18 +15,20 @@ chrome.runtime.sendMessage({
 });
 
 chrome.runtime.onMessage.addListener((message, sender) => {
+    DEBUG_LOG('收到message', message);
     if (!uids.has(message.uid)) {
         fly(message);
     }
 });
 
 function fly(message) {
+    DEBUG_LOG('fly', message);
     uids.add(message.uid);    
     let div = document.createElement('div');
     div.className = 'dm--bullet';
     div.style.color = message.color;
     div.style.fontSize = `${message.fontSize}px`;
-    div.style[message.direction] = `-${div.clientWidth}px`;
+    div.style[message.direction] = `-10086px`;
     div.innerText = message.text;
     
     document.body.insertBefore(div, null);

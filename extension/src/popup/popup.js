@@ -157,7 +157,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         ({enable, color, fontSize, direction} = message.options);
         renderOptions();
     }
-    console.log('sdfsdfsd', message, sender);
+    console.log(message, sender);
 });
 
 chrome.runtime.sendMessage({
