@@ -1,6 +1,6 @@
 {
   "name": "弹幕可以有",
-  "version": "0.1",
+  "version": "0.2",
   "manifest_version": 2,
   "icons": {
     "16": "./images/icon.png",
