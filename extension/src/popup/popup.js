@@ -2,7 +2,11 @@ document.getElementById('about').addEventListener('click', () => {
     window.open('http://brookshuihualee.github.io/DanMuKeYiYou/');
 });
 
-const MESSAGE_TAG = 'popup';
+const MESSAGE_TAG = 'popup',
+    DEBUG = true,
+    DEBUG_LOG = (...args) => {
+        if (DEBUG) console.log(...args);
+    };
 
 let color = '#000';
 let fontSize = '48';
@@ -108,6 +112,7 @@ document.getElementById('enable-toggle').addEventListener('click', e => {
 
 function renderOptions() {
     [...document.getElementById('size').children].forEach(e => {
+        DEBUG_LOG(e.attributes.value.value, 'color', fontSize);
         if (e.attributes.value.value === fontSize) {
             e.className = 'active';
         } else {
@@ -124,6 +129,7 @@ function renderOptions() {
     });
     
     [...document.getElementById('colors').children].forEach(e => {
+        DEBUG_LOG(e.children[0].style.backgroundColor, 'color', color);
         if (e.children[0].style.backgroundColor === color) {
             e.className = 'active';
         } else {

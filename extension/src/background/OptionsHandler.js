@@ -13,8 +13,8 @@ window._OPTIONS_HANDLER = new class {
         chrome.storage.sync.get({
             enable: true,
 
-            color: '#000',
-            fontSize: 48,
+            color: 'rgb(0, 0, 0)',
+            fontSize: '60',
             direction: 'right'
         }, options => {
             this.options = options;
