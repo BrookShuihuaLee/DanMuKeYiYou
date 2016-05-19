@@ -1,6 +1,6 @@
 {
   "name": "dan-mu-ke-yi-you",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "弹幕可以有",
   "main": "index.js",
   "dependencies": {
