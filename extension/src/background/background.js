@@ -55,6 +55,29 @@ function addMessageToOld(msg) {
     }
 }
 
+function updateTab(tabId, url) {
+    removeTab(tabId);
+    tabIdToUrl.set(tabId, url);
+    if (!urlToTabIdsMap.has(url)) {
+        window._SOCKET_HANDLER.setMessageListener(url, msg => {
+            addMessageToOld(msg);
+        });
+        urlMessages.set(url, []);
+        window._SOCKET_HANDLER.getOldMessages(url).then(ms => {
+            if (urlMessages.has(url)) {
+                if (ms) {
+                    urlMessages.set(url, urlMessages.get(url).concat(ms));
+                    if (urlMessages.get(url).length > MESSAGE_MAX_COUNT) {
+                        urlMessages.get(url).length = MESSAGE_MAX_COUNT;
+                    }
+                }
+            }
+        });
+        urlToTabIdsMap.set(url, new Set());
+    }
+    urlToTabIdsMap.get(url).add(tabId);
+}
+
 chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.tag === MESSAGE_TAG) return;
     if (message.tag === 'popup') {
@@ -78,26 +101,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
         const
             url = sender.tab.url,
             tabId = sender.tab.id;
-        removeTab(tabId);
-        tabIdToUrl.set(tabId, url);
-        if (!urlToTabIdsMap.has(url)) {
-            window._SOCKET_HANDLER.setMessageListener(url, msg => {
-                addMessageToOld(msg);
-            });
-            urlMessages.set(url, []);
-            window._SOCKET_HANDLER.getOldMessages(url).then(ms => {
-                if (urlMessages.has(url)) {
-                    if (ms) {
-                        urlMessages.set(url, urlMessages.get(url).concat(ms));
-                        if (urlMessages.get(url).length > MESSAGE_MAX_COUNT) {
-                            urlMessages.get(url).length = MESSAGE_MAX_COUNT;
-                        }
-                    }
-                }
-            });
-            urlToTabIdsMap.set(url, new Set());
-        }
-        urlToTabIdsMap.get(url).add(tabId);
+        updateTab(tabId, url);
     }
 });
 
@@ -124,3 +128,8 @@ setInterval(() => {
     }
 }, 1000);
 
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status === 'complete') {
+        updateTab(tabId, tab.url);
+    }
+})
