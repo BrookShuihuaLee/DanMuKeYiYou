@@ -49,9 +49,13 @@ function removeTab(tabId) {
 }
 
 function addMessageToOld(msg) {
-    urlMessages.get(msg.url).unshift(msg);
-    if (urlMessages.get(msg.url).length > MESSAGE_MAX_COUNT) {
-        urlMessages.get(msg.url).length = MESSAGE_MAX_COUNT;
+    if (urlMessages.get(msg.url)) {
+        urlMessages.get(msg.url).unshift(msg);
+        if (urlMessages.get(msg.url).length > MESSAGE_MAX_COUNT) {
+            urlMessages.get(msg.url).length = MESSAGE_MAX_COUNT;
+        }
+    } else {
+        window._SOCKET_HANDLER.deleteMessageListener(msg.url);
     }
 }
 
