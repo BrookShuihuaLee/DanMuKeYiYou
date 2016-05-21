@@ -4,24 +4,23 @@
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import plumber from 'gulp-plumber';
+import clean from 'gulp-clean';
 
 gulp.task('default', ['watch']);
 
-gulp.task('watch', ['server', 'extension'], function () {
+gulp.task('watch', ['server', 'extensionChrome', 'extensionFirefox'], function () {
     gulp.watch('./server/src/**/*', () => {
         gulp.start('server');
     });
-    gulp.watch('./extension/src/**/*', () => {
-        gulp.start('extension');
+    gulp.watch('./extensionChrome/src/**/*', () => {
+        gulp.start('extensionChrome');
+    });
+    gulp.watch('./extensionFirefox/src/**/*', () => {
+        gulp.start('extensionFirefox');
     });
 });
 
-gulp.task('copy_server', () => {
-    return gulp.src('./server/src/**/*')
-        .pipe(gulp.dest('./server/dist'))
-});
-
-gulp.task('server', ['copy_server'], () => {
+gulp.task('server', ['copyServer'], () => {
     return gulp.src('./server/src/**/*.js')
         .pipe(plumber({
             errorHandler: function (err) {
@@ -33,15 +32,32 @@ gulp.task('server', ['copy_server'], () => {
         .pipe(gulp.dest('./server/dist'));
 });
 
-gulp.task('copy_ext', () => {
-    return gulp.src('./extension/src/**/*')
-        .pipe(gulp.dest('./extension/dist'))
+gulp.task('copyServer', ['cleanServer'], () => {
+    return gulp.src('./server/src/**/*')
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
+        .pipe(gulp.dest('./server/dist'))
 });
 
-gulp.task('extension', ['copy_ext'], () => {
+gulp.task('cleanServer', () => {
+    return gulp.src('./server/dist/*', { read: false })
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
+        .pipe(clean());
+});
+
+gulp.task('extensionChrome', ['copyChrome'], () => {
     return gulp.src([
-            './extension/src/**/*.js',
-            '!extension/src/lib/socket.io.js'
+            './extensionChrome/src/**/*.js',
+            '!extensionChrome/src/lib/socket.io.js'
         ])
         .pipe(plumber({
             errorHandler: function (err) {
@@ -50,5 +66,64 @@ gulp.task('extension', ['copy_ext'], () => {
             }
         }))
         .pipe(babel())
-        .pipe(gulp.dest('./extension/dist'));
+        .pipe(gulp.dest('./extensionChrome/dist'));
+});
+
+gulp.task('copyChrome', ['cleanChrome'], () => {
+    return gulp.src('./extensionChrome/src/**/*')
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
+        .pipe(gulp.dest('./extensionChrome/dist'))
+});
+
+gulp.task('cleanChrome', () => {
+    return gulp.src('./extensionChrome/dist/*', { read: false })
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
+        .pipe(clean());
+});
+
+gulp.task('extensionFirefox', ['copyFirefox'], () => {
+    return gulp.src([
+            './extensionFirefox/src/**/*.js',
+            '!extensionFirefox/src/lib/socket.io.js'
+        ])
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
+        .pipe(babel())
+        .pipe(gulp.dest('./extensionFirefox/dist'));
+});
+
+gulp.task('copyFirefox', ['cleanFirefox'], () => {
+    return gulp.src('./extensionFirefox/src/**/*')
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
+        .pipe(gulp.dest('./extensionFirefox/dist'))
+});
+
+gulp.task('cleanFirefox', () => {
+    return gulp.src('./extensionFirefox/dist/*', { read: false })
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
+        .pipe(clean());
 });

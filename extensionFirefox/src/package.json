@@ -1,0 +1,16 @@
+{
+  "title": "弹幕可以有",
+  "name": "danmukyy",
+  "version": "0.1.0",
+  "description": "你可以在任何网页上发弹幕，所有装这个插件的人都能看见。",
+  "main": "index.js",
+  "author": "Brook",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MIT",
+  "keywords": [
+    "弹幕"
+  ]
+}
