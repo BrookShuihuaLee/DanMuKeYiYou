@@ -57,7 +57,8 @@ gulp.task('cleanServer', () => {
 gulp.task('extensionChrome', ['copyChrome'], () => {
     return gulp.src([
             './extensionChrome/src/**/*.js',
-            '!extensionChrome/src/lib/socket.io.js'
+            '!extensionChrome/src/lib/socket.io.js',
+            '!extensionChrome/src/lib/poly.min.js',
         ])
         .pipe(plumber({
             errorHandler: function (err) {
