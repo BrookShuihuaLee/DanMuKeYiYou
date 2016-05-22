@@ -14,14 +14,15 @@ chrome.runtime.sendMessage({
     tag: MESSAGE_TAG
 });
 
-chrome.runtime.onMessage.addListener((message, sender) => {
-    DEBUG_LOG('收到message', message);
+chrome.runtime.onMessage.addListener((input_message, sender) => {
+    DEBUG_LOG('收到message', input_message);
+    let {message, display} = input_message;
     if (!uids.has(message.uid)) {
-        fly(message);
+        fly(message, display);
     }
 });
 
-function fly(message) {
+function fly(message, display) {
     DEBUG_LOG('fly', message);
     uids.add(message.uid);    
     let div = document.createElement('div');
@@ -30,6 +31,12 @@ function fly(message) {
     div.style.fontSize = `${message.fontSize}px`;
     div.style[message.direction] = `-10086px`;
     div.innerText = message.text;
+    
+    if (display.family !== '不限制') {
+        div.style.fontFamily = display.family;
+    }
+    div.style.opacity = display.alpha;
+    div.style.fontSize = `${parseFloat(div.style.fontSize) * display.scale}px`;
     
     document.body.insertBefore(div, null);
     

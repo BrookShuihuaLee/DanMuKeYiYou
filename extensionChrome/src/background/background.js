@@ -145,7 +145,7 @@ setInterval(() => {
                     if (!message.uid) {
                         message.uid = uid();
                     }
-                    chrome.tabs.sendMessage(tab.id, message);
+                    chrome.tabs.sendMessage(tab.id, {message, display});
                     urlMessages.get(tab.url).push(message);
                 }
             })
