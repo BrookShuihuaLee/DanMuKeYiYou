@@ -3,7 +3,7 @@ document.getElementById('about').addEventListener('click', () => {
 });
 
 const MESSAGE_TAG = 'popup',
-    DEBUG = true,
+    DEBUG = false,
     DEBUG_LOG = (...args) => {
         if (DEBUG) console.log(...args);
     };
