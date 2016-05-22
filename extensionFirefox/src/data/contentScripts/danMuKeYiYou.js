@@ -10,30 +10,17 @@ const
     };
 let uids = new Set();
 
-//chrome.runtime.sendMessage({
-//    tag: MESSAGE_TAG
-//});
-//
-//chrome.runtime.onMessage.addListener((message, sender) => {
-//    DEBUG_LOG('收到message', message);
-//    if (!uids.has(message.uid)) {
-//        fly(message);
-//    }
-//});
-fly({
-    text: 'sdf',
-    color: 'red',
-    fontSize: 44,
-    direction: 'right'
+self.port.on('fly', message => {
+    if (!uids.has(message.uid)) {
+        uids.add(message.uid);
+        fly(message);
+    }
 });
 
-self.port.on('xxx', d => console.log(d + 4));
-self.port.emit('loaded', 112);
-console.log('sended');
+self.port.emit('url', window.location.toString());
 
 function fly(message) {
     DEBUG_LOG('fly', message);
-    uids.add(message.uid);    
     let div = document.createElement('div');
     div.className = 'dm--bullet';
     div.style.color = message.color;

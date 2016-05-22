@@ -5,9 +5,9 @@ const WAIT_OLD_MESSAGES_TIME = 10000;
 
 window._SOCKET_HANDLER = new class {
     constructor() {
-        this.isConnected = false;
-        this.urlToMessageListenerMap = new Map();
-        this.urlToOldMessagesCBMap = new Map();
+        this._isConnected = false;
+        this._urlToMessageListenerMap = new Map();
+        this._urlToOldMessagesCBMap = new Map();
 
         this.socket = window.io('http://danmukyy.duapp.com');
         //this.socket = window.io('http://192.168.1.144:18080');
@@ -18,43 +18,43 @@ window._SOCKET_HANDLER = new class {
     }
 
     _connect() {
-        this.isConnected = true;
+        this._isConnected = true;
     }
 
     _disconnect() {
-        this.isConnected = false;
+        this._isConnected = false;
     }
 
     _message(message) {
-        const listener = this.urlToMessageListenerMap.get(message.url);
+        const listener = this._urlToMessageListenerMap.get(message.url);
         if (listener) listener(message);
     }
 
     _oldMessages(url, oldMessages) {
-        const cb = this.urlToOldMessagesCBMap.get(url);
+        const cb = this._urlToOldMessagesCBMap.get(url);
         if (cb) {
             cb(oldMessages);
-            this.urlToOldMessagesCBMap.delete(url);
+            this._urlToOldMessagesCBMap.delete(url);
         }
     }
 
     setMessageListener(url, listener) {
-        this.urlToMessageListenerMap.set(url, listener);
+        this._urlToMessageListenerMap.set(url, listener);
         this.socket.emit('openUrl', url);
     }
 
     deleteMessageListener(url) {
         this.socket.emit('leaveUrl', url);
-        this.urlToMessageListenerMap.delete(url);
+        this._urlToMessageListenerMap.delete(url);
     }
 
     getOldMessages(url) {
         return new Promise(resolve => {
             this.socket.emit('getOldMessages', url);
-            this.urlToOldMessagesCBMap.set(url, resolve);
+            this._urlToOldMessagesCBMap.set(url, resolve);
             window.setTimeout(() => {
                 resolve();
-                this.urlToOldMessagesCBMap.delete(url);
+                this._urlToOldMessagesCBMap.delete(url);
             }, WAIT_OLD_MESSAGES_TIME);
         });
     }
