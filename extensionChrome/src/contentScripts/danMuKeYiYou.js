@@ -57,3 +57,8 @@ function fly(message, display) {
         }
     })(message.direction, 5000 + Math.random() * 5000);
 }
+
+const versionDiv = document.createElement('div');
+versionDiv.id = 'DANMUKYY_VERSION';
+versionDiv.innerHTML = 'Chrome 0.4';
+document.body.insertBefore(versionDiv, null);
