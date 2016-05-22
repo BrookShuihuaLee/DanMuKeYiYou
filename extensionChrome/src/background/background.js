@@ -10,6 +10,7 @@ const
     MESSAGE_MAX_COUNT = 200;
 
 let options = {};
+let display = {};
 
 function uid() {
     return parseInt(Math.random() * 0xffffffff);
@@ -29,6 +30,23 @@ getOptions();
 function saveOptions(opts) {
     options = opts;
     window._OPTIONS_HANDLER.setOptions(options);
+}
+
+function getDisplay() {
+    window._DISPLAY_HANDLER.getOptions().then(res => {
+        display = res;
+        console.log('in gett display', display);
+        chrome.runtime.sendMessage({
+            tag: MESSAGE_TAG,
+            event: 'display',
+            options: display
+        });
+    });
+}
+getDisplay();
+function saveDisplay(opts) {
+    display = opts;
+    window._DISPLAY_HANDLER.setOptions(display);
 }
 
 function removeTab(tabId) {
@@ -87,8 +105,11 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.tag === 'popup') {
         if (message.event === 'loaded') {
             getOptions();
+            getDisplay();
         } else if (message.event === 'options') {
             saveOptions(message.options);
+        } else if (message.event === 'display') {
+            saveDisplay(message.options);
         } else {
             delete message['tag'];
             let tabId = message.tabId;

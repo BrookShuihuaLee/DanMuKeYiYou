@@ -14,7 +14,7 @@ let direction = 'right';
 let enable = true;
 
 let scale = '1';
-let family = '微软雅黑';
+let family = '不限制';
 let alpha = '1';
 
 let show = 'send';
@@ -121,6 +121,15 @@ document.getElementById('d-alpha').addEventListener('click', e => {
 });
 
 function saveDisplayOption() {
+    chrome.runtime.sendMessage({
+        tag: MESSAGE_TAG,
+        event: 'display',
+        options: {
+            scale,
+            family,
+            alpha, 
+        }
+    });
     renderDisplayOption();
 }
 
@@ -243,8 +252,11 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.event === 'options') {
         ({enable, color, fontSize, direction} = message.options);
         renderOptions();
+    } else if (message.event === 'display') {
+        ({scale, family, alpha} = message.options);
+        DEBUG_LOG('display', message.options);
+        renderDisplayOption();
     }
-    console.log(message, sender);
 });
 
 chrome.runtime.sendMessage({

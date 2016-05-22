@@ -30,6 +30,7 @@
     "scripts": [
       "./lib/socket.io.js",
       "./background/OptionsHandler.js",
+      "./background/DisplayHandler.js",
       "./background/SocketHandler.js",
       "./background/background.js"
     ]
