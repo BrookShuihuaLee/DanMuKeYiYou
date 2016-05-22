@@ -47,3 +47,8 @@ function fly(message) {
         }
     })(message.direction, 5000 + Math.random() * 5000);
 }
+
+const versionDiv = document.createElement('div');
+versionDiv.id = 'DANMUKYY_VERSION';
+versionDiv.innerHTML = 'Firefox 0.1';
+document.body.insertBefore(versionDiv, null);
