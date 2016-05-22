@@ -94,7 +94,7 @@ gulp.task('cleanChrome', () => {
 gulp.task('extensionFirefox', ['copyFirefox'], () => {
     return gulp.src([
             './extensionFirefox/src/**/*.js',
-            '!extensionFirefox/src/lib/socket.io.js'
+            '!extensionFirefox/src/data/pageWorker/socket.io.js'
         ])
         .pipe(plumber({
             errorHandler: function (err) {

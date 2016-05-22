@@ -12,11 +12,10 @@ export default new class {
             contentURL: self.data.url('./popup/popup.html'),
             contentScriptFile: [self.data.url('./popup/popup.js')],
             onHide: () => {
-                this._button.state('window', {
-                    checked: false
-                });
+                this._isOpening = false;
             }
         });
+        this._isOpening = false;
         this._popupPanel.port.on('getOptions', this.getOptions.bind(this));
         this._button = BUTTON_ACTION.ActionButton({
             id: 'danmukyy',
@@ -26,8 +25,9 @@ export default new class {
                 '32': './images/icon.png',
                 '64': './images/icon.png'
             },
-            onChange: (state) => {
-                if (state.checked) {
+            onClick: (state) => {
+                if (!this._isOpening) {
+                    this._isOpening = true;
                     this._popupPanel.show({
                         position: this._button
                     });

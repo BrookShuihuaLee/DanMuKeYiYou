@@ -1,10 +1,7 @@
 import self from 'sdk/self';
 import pageMod from 'sdk/page-mod';
-import POPUP_HANDLER from './PopupHandler.js'
-//import IO from './lib/socket.io.js';
-
-
-
+import POPUP_HANDLER from './PopupHandler.js';
+import SOCKET_HANDLER from './SocketHandler.js';
 
 pageMod.PageMod({
     include: '*',//['http://*', 'https://*'],
