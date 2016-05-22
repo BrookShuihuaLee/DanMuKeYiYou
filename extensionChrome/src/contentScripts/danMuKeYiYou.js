@@ -32,9 +32,7 @@ function fly(message, display) {
     div.style[message.direction] = `-10086px`;
     div.innerText = message.text;
     
-    if (display.family !== '不限制') {
-        div.style.fontFamily = display.family;
-    }
+    div.style.fontFamily = display.family;
     div.style.opacity = display.alpha;
     div.style.fontSize = `${parseFloat(div.style.fontSize) * display.scale}px`;
     
