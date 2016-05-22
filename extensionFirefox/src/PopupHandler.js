@@ -9,6 +9,8 @@ import OPTIONS_HANDLER from './OptionsHandler.js';
 export default new class {
     constructor() {
         this._popupPanel = panel.Panel({
+            width: 300,
+            height: 400,
             contentURL: self.data.url('./popup/popup.html'),
             contentScriptFile: [self.data.url('./popup/popup.js')],
             onHide: () => {

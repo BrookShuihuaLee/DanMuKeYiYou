@@ -2,9 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>弹幕可以有</title>
+    <link rel="stylesheet" href="./popup.css" type="text/css">
 </head>
 <body>
-asdf
+
+<div id="enable-div">
+    <button id="enable-toggle">关</button>
+    <button id="about">关于</button>
+</div>
+
+<label for="direction">
+    <div></div>
+    <span>飞出</span>
+    <div></div>
+</label>
+<div id="direction">
+    <span class="active" value="left">左</span>
+    <span value="right">右</span>
+</div>
+<label for="size">
+    <div></div>
+    <span>大小</span>
+    <div></div>
+</label>
+<div id="size">
+    <span value="48">小</span>
+    <span class="active" value="60">中</span>
+    <span value="72">大</span>
+</div>
+
+<label for="colors">
+    <div></div>
+    <span>颜色</span>
+    <div></div>
+</label>
+<div id="colors">
+    <div class="active"><span style="background-color: #000"></span></div>
+    <div><span style="background-color: #16a085"></span></div>
+    <div><span style="background-color: #27ae60"></span></div>
+    <div><span style="background-color: #3498db"></span></div>
+    <div><span style="background-color: #8e44ad"></span></div>
+    <div><span style="background-color: #2c3e50"></span></div>
+    <div><span style="background-color: #f39c12"></span></div>
+    <div><span style="background-color: #e67e22"></span></div>
+    <div><span style="background-color: #bdc3c7"></span></div>
+    <div><span style="background-color: #7f8c8d"></span></div>
+    <div><span style="background-color: #c0392b"></span></div>
+</div>
+
+<div id="tip-for-content">还能输入
+    <span id="content-length">15</span>
+    个字</div>
+<textarea title="弹幕" id="content"></textarea>
+
+<div id="sender">
+    <button id="btn">发送</button>
+</div>
+<script src="../lib/polyfill.min.js"></script>
+<script src="./popup.js"></script>
+
 </body>
 </html>

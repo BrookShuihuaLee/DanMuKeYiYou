@@ -69,7 +69,7 @@ export default new class {
             this._page.port.emit('getOldMessages', url);
             this._urlToOldMessagesCBMap.set(url, resolve);
             TIMERS.setTimeout(() => {
-                resolve();
+                resolve([]);
                 this._urlToOldMessagesCBMap.delete(url);
             }, WAIT_OLD_MESSAGES_TIME);
         }).catch(console.error);

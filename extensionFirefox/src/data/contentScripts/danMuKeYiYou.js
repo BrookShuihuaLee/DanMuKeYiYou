@@ -17,19 +17,17 @@ self.port.on('fly', message => {
     }
 });
 
-self.port.emit('url', window.location.toString());
-
 function fly(message) {
     DEBUG_LOG('fly', message);
-    let div = document.createElement('div');
+    let div = window.document.createElement('div');
     div.className = 'dm--bullet';
     div.style.color = message.color;
     div.style.fontSize = `${message.fontSize}px`;
     div.style[message.direction] = `-10086px`;
     div.innerText = message.text;
-    
-    document.body.insertBefore(div, null);
-    
+
+    window.document.body.insertBefore(div, null);
+
     let top = (window.innerHeight - div.clientHeight);
     div.style.top = `${(Math.random() * top)}px`;
 
