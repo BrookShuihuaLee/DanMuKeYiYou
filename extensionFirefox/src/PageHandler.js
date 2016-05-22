@@ -29,6 +29,7 @@ export default new class {
             onAttach: this._onAttach.bind(this)
         });
         this._startFlyThread();
+        POPUP_HANDLER.setMessageListener(this._sendMessage.bind(this));
     }
 
     _onAttach(worker) {
@@ -48,7 +49,7 @@ export default new class {
             SOCKET_HANDLER.getOldMessages(url).then(oldMessages => {
                 const messages = this._urlToMessagesMap.get(url);
                 if (messages) {
-                    this._urlToMessagesMap.set(url, messages.concat(oldMessages))
+                    this._urlToMessagesMap.set(url, messages.concat(oldMessages));
                 }
             });
             SOCKET_HANDLER.setMessageListener(url, message => {
@@ -117,5 +118,16 @@ export default new class {
                 }
             }
         }, FLY_FREQUENCY);
+    }
+
+    _sendMessage(message) {
+        const
+            {id: tabId, url} = TABS.activeTab,
+            messages = this._urlToMessagesMap.get(url);
+        if (tabId && url && messages) {
+            message.url = url;
+            messages.unshift(message);
+            SOCKET_HANDLER.addMessage(message);
+        }
     }
 };
