@@ -13,6 +13,12 @@ let fontSize = '48';
 let direction = 'right';
 let enable = true;
 
+let scale = '1';
+let family = '微软雅黑';
+let alpha = '1';
+
+let show = 'send';
+
 function saveOptions() {
     chrome.runtime.sendMessage({
         tag: MESSAGE_TAG,
@@ -39,6 +45,20 @@ function setTextNum(n) {
         document.getElementById('content').style.color = '#000';
     }
 }
+
+document.getElementById('show-toggle').addEventListener('click', e => {
+    if (show === 'send') {
+        show = 'display';
+        document.getElementById('show-toggle').innerText = '返回';
+        document.getElementById('send-settings').style.display = 'none';
+        document.getElementById('display-settings').style.display = 'block';
+    } else {
+        show = 'send';
+        document.getElementById('show-toggle').innerText = '弹幕显示设置';
+        document.getElementById('display-settings').style.display = 'none';
+        document.getElementById('send-settings').style.display = 'block';
+    }
+});
 
 document.getElementById('size').addEventListener('click', e => {
     if (e.target === document.getElementById('size')) {
@@ -69,6 +89,67 @@ document.getElementById('colors').addEventListener('click', e => {
     color = t.style.backgroundColor;
     saveOptions();
 });
+
+document.getElementById('d-scale').addEventListener('click', e => {
+    if (e.target === document.getElementById('d-scale')) {
+        return;
+    }
+    let t = e.target;
+    scale = t.attributes.value.value;
+    saveDisplayOption();
+});
+
+document.getElementById('d-family').addEventListener('click', e => {
+    if (e.target === document.getElementById('d-family')) {
+        return;
+    }
+    let t = e.target;
+    family = t.attributes.value.value;
+    saveDisplayOption();
+});
+
+document.getElementById('d-alpha').addEventListener('click', e => {
+    if (e.target === document.getElementById('d-alpha')) {
+        return;
+    }
+    let t = e.target;
+    if (t.nodeName === 'DIV') {
+        t = t.children[0];
+    }
+    alpha = t.style.opacity;
+    saveDisplayOption();
+});
+
+function saveDisplayOption() {
+    renderDisplayOption();
+}
+
+function renderDisplayOption() {
+    [...document.getElementById('d-scale').children].forEach(e => {
+        if (e.attributes.value.value === scale) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
+    [...document.getElementById('d-family').children].forEach(e => {
+        if (e.attributes.value.value === family) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
+    [...document.getElementById('d-alpha').children].forEach(e => {
+        DEBUG_LOG(e.children[0].style.opacity);
+        if (e.children[0].style.opacity === alpha) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+}
 
 function sendMessage() {
     enable = true;

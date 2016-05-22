@@ -1,8 +1,12 @@
 body {
     width: 300px;
     background: linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,1)), url('../images/popup-bg.jpg');
-    background-size: cover;
+    background-scale: cover;
     margin: 0px;
+}
+
+#display-settings {
+    display: none;
 }
 
 #about {
@@ -32,11 +36,11 @@ label > div {
     margin: 5px;
 }
 
-#size {
+#size,#d-scale,#d-family {
     text-align: center;
 }
 
-#size > span {
+#size > span,#d-scale > span {
     margin: 10px 30px;
     font-size: 16px;
     font-weight: bold;
@@ -45,14 +49,11 @@ label > div {
     width: 20px;
     height: 20px;
     display: inline-block;
-}
-
-#size > .active {
-    border: solid 2px #FAA;
-}
-
-#size > span {
     cursor: pointer;
+}
+
+#size > .active, #d-scale > .active,#d-family>.active{
+    border: solid 2px #FAA;
 }
 
 #direction {
@@ -68,14 +69,11 @@ label > div {
     width: 20px;
     height: 20px;
     display: inline-block;
+    cursor: pointer;
 }
 
 #direction > .active {
     border: solid 2px #FAA;
-}
-
-#direction > span {
-    cursor: pointer;
 }
 
 #colors {
@@ -134,4 +132,44 @@ button {
     text-transform: none;
     font-size: 18px;
     box-shadow: 0 0 0 1px rgba(34,36,38,.15);
+}
+
+#d-family>span {
+    font-size: 16px;
+    font-weight: bold;
+    border: solid 2px rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    /*width: 20px;
+    height: 20px;*/
+    display: inline-block;
+    cursor: pointer;
+}
+
+#d-family > .active {
+    border: solid 2px #FAA;
+}
+
+#d-alpha {
+    text-align: center;
+}
+
+#d-alpha > div {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+#d-alpha > div > span {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 10px;
+    background-color: #16a085;
+}
+#d-alpha > .active {
+    /*background: radial-gradient(red, white);*/
+    border-radius: 20px;
+    width: 14px;
+    height: 14px;
+    border: 3px solid #FAA;
 }
