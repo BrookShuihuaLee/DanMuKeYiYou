@@ -2,7 +2,7 @@
  * Created by Brook on 2016/5/21.
  */
 document.getElementById('about').addEventListener('click', () => {
-    window.open('http://brookshuihualee.github.io/DanMuKeYiYou/');
+    self.port.emit('openAbout');
 });
 
 const

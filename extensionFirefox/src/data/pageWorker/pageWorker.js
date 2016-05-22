@@ -1,13 +1,23 @@
 /**
  * Created by Brook on 2016/5/21.
  */
-const MESSAGE_TAG = 'PageWorker';
+const
+    MESSAGE_TAG = 'PageWorker',
+    DEBUG = true;
 
 new class {
     constructor() {
         this._socket = window.io('http://danmukyy.duapp.com/');
         window.addEventListener('message', ({data}) => {
             if (data.tag === MESSAGE_TAG || !data.args) return;
+            if (DEBUG) {
+                window.postMessage({
+                    tag: MESSAGE_TAG,
+                    debug: {
+                        socketId: this._socket.id
+                    }
+                }, window.location);
+            }
             this._socket.emit(...data.args);
         });
         this._socket.on('connect', this._sendMessageToSocketWorker.bind(this, 'connect'));

@@ -60,5 +60,6 @@ function fly(message, display) {
 
 const versionDiv = document.createElement('div');
 versionDiv.id = 'DANMUKYY_VERSION';
-versionDiv.innerHTML = 'Chrome 0.4';
+versionDiv.innerHTML = 'Chrome 0.4.0';
+versionDiv.style.display = 'none';
 document.body.insertBefore(versionDiv, null);

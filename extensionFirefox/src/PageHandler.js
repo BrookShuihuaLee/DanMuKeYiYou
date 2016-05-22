@@ -9,7 +9,12 @@ import POPUP_HANDLER from './PopupHandler.js';
 import SOCKET_HANDLER from './SocketHandler.js';
 import OPTIONS_HANDLER from './OptionsHandler.js';
 
-const FLY_FREQUENCY = 1000;
+const
+    FLY_FREQUENCY = 1000,
+    DEBUG = false,
+    DEBUG_LOG = (...args) => {
+        if (DEBUG) console.log(...args);
+    };
 
 export default new class {
     constructor() {
@@ -46,7 +51,9 @@ export default new class {
         if (!tabIdSet) {
             this._urlToTabIdsMap.set(url, tabIdSet = new Set());
             this._urlToMessagesMap.set(url, []);
+            DEBUG_LOG(`get old messages`, url);
             SOCKET_HANDLER.getOldMessages(url).then(oldMessages => {
+                DEBUG_LOG(`got old messages`, url, oldMessages.length);
                 const messages = this._urlToMessagesMap.get(url);
                 if (messages) {
                     this._urlToMessagesMap.set(url, messages.concat(oldMessages));

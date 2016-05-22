@@ -5,6 +5,7 @@ import self from 'sdk/self';
 import panel from 'sdk/panel';
 import BUTTON_ACTION from 'sdk/ui/button/action';
 import OPTIONS_HANDLER from './OptionsHandler.js';
+import TABS from 'sdk/tabs';
 
 export default new class {
     constructor() {
@@ -21,6 +22,7 @@ export default new class {
         this._popupPanel.port.on('getOptions', this._getOptions.bind(this));
         this._popupPanel.port.on('setOptions', this._setOptions.bind(this));
         this._popupPanel.port.on('sendMessage', this._sendMessage.bind(this));
+        this._popupPanel.port.on('openAbout', this._openAbout.bind(this));
         this._button = BUTTON_ACTION.ActionButton({
             id: 'danmukyy',
             label: '弹幕可以有',
@@ -54,5 +56,9 @@ export default new class {
 
     _setOptions(options) {
         OPTIONS_HANDLER.setOptions(options);
+    }
+
+    _openAbout() {
+        TABS.open('http://brookshuihualee.github.io/DanMuKeYiYou/');
     }
 };
