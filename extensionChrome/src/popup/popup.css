@@ -36,11 +36,11 @@ label > div {
     margin: 5px;
 }
 
-#size,#d-scale,#d-family {
+#size,#d-scale,#d-family,#d-time {
     text-align: center;
 }
 
-#size > span,#d-scale > span {
+#size > span,#d-scale > span,#d-time > span {
     margin: 10px 30px;
     font-size: 16px;
     font-weight: bold;
@@ -52,7 +52,7 @@ label > div {
     cursor: pointer;
 }
 
-#size > .active, #d-scale > .active,#d-family>.active{
+#size > .active, #d-scale > .active,#d-family>.active,#d-time>.active{
     border: solid 2px #FAA;
 }
 

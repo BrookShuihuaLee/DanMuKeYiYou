@@ -35,7 +35,6 @@ function saveOptions(opts) {
 function getDisplay() {
     window._DISPLAY_HANDLER.getOptions().then(res => {
         display = res;
-        console.log('in gett display', display);
         chrome.runtime.sendMessage({
             tag: MESSAGE_TAG,
             event: 'display',

@@ -12,8 +12,9 @@ window._DISPLAY_HANDLER = new class {
     _getOptionsFromChrome() {
         chrome.storage.sync.get({
             scale: '1',
-            family: '不限制',
-            alpha: '1'
+            family: '',
+            alpha: '1',
+            speed: '1'
         }, options => {
             this.options = options;
         });

@@ -3,7 +3,7 @@ document.getElementById('about').addEventListener('click', () => {
 });
 
 const MESSAGE_TAG = 'popup',
-    DEBUG = true,
+    DEBUG = false,
     DEBUG_LOG = (...args) => {
         if (DEBUG) console.log(...args);
     };
@@ -16,6 +16,7 @@ let enable = true;
 let scale = '1';
 let family = '不限制';
 let alpha = '1';
+let time = '1';
 
 let show = 'send';
 
@@ -99,6 +100,15 @@ document.getElementById('d-scale').addEventListener('click', e => {
     saveDisplayOption();
 });
 
+document.getElementById('d-time').addEventListener('click', e => {
+    if (e.target === document.getElementById('d-time')) {
+        return;
+    }
+    let t = e.target;
+    time = t.attributes.value.value;
+    saveDisplayOption();
+});
+
 document.getElementById('d-family').addEventListener('click', e => {
     if (e.target === document.getElementById('d-family')) {
         return;
@@ -127,13 +137,22 @@ function saveDisplayOption() {
         options: {
             scale,
             family,
-            alpha, 
+            alpha,
+            time
         }
     });
     renderDisplayOption();
 }
 
 function renderDisplayOption() {
+    [...document.getElementById('d-time').children].forEach(e => {
+        if (e.attributes.value.value === time) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
     [...document.getElementById('d-scale').children].forEach(e => {
         if (e.attributes.value.value === scale) {
             e.className = 'active';

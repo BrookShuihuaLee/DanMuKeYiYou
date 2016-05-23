@@ -55,7 +55,7 @@ function fly(message, display) {
                 div.style[direction] = `${time / duration * distance - div.clientWidth}px`;
             }
         }
-    })(message.direction, 5000 + Math.random() * 5000);
+    })(message.direction, (5000 + Math.random() * 5000) * display.time);
 }
 
 const versionDiv = document.createElement('div');
