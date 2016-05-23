@@ -11,7 +11,19 @@
 <body>
 <section class="page-header">
     <h1 class="project-name">弹幕可以有</h1>
-    <h2 class="project-tagline">如果可以有</h2>
+    <h2 class="project-tagline"><span id="installed-version">您未安装此插件或者版本太旧</span></h2>
+    <h2><strong>最新版：Chrome 0.4.0 & Firefox 0.1.2</strong></h2>
+    <script>
+        for (var i = 0; i < 100; i++) {
+            window.setTimeout(function () {
+                var v = document.getElementById('DANMUKYY_VERSION');
+                if (v && (v = v.innerHTML)) {
+                    document.getElementById('installed-version').innerHTML = '您安装的版本是' + v;
+                }
+            }, i * 100);
+        }
+    </script>
+
     <a href="https://github.com/BrookShuihuaLee/DanMuKeYiYou" class="btn">去GitHub看看</a>
 
     <a href="./应用商店/弹幕可以有_v0.3.crx" class="btn">Chrome阵营下载 .crx</a>
