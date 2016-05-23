@@ -26,6 +26,7 @@ export default new class {
         this._urlToTabIdsMap = new Map();
         this._tabIdToUrlMap = new Map();
         this._tabIdToPortMap = new Map();
+        this._display = {};
         PAGE_MOD.PageMod({
             include: ['http://*', 'https://*'],
             contentScriptWhen: 'ready',
@@ -35,6 +36,9 @@ export default new class {
         });
         this._startFlyThread();
         POPUP_HANDLER.setMessageListener(this._sendMessage.bind(this));
+        POPUP_HANDLER.setDisplayListener(options => {
+            this._display = options;
+        });
     }
 
     _onAttach(worker) {
@@ -117,7 +121,7 @@ export default new class {
                 const message = this._getTopMessageByUrl(url);
                 if (message) {
                     try {
-                        port.emit('fly', message);
+                        port.emit('fly', {message, display: this._display});
                     } catch (e) {
                         console.error(e);
                         this._removeTabId(tabId);

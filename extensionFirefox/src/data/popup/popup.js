@@ -16,6 +16,13 @@ let fontSize = '48';
 let direction = 'right';
 let enable = true;
 
+let scale = '1';
+let family = '';
+let alpha = '1';
+let time = '1';
+
+let show = 'send';
+
 function saveOptions() {
     self.port.emit('setOptions', {
         color,
@@ -38,6 +45,20 @@ function setTextNum(n) {
         document.getElementById('content').style.color = '#000';
     }
 }
+
+document.getElementById('show-toggle').addEventListener('click', e => {
+    if (show === 'send') {
+        show = 'display';
+        document.getElementById('show-toggle').innerText = '返回';
+        document.getElementById('send-settings').style.display = 'none';
+        document.getElementById('display-settings').style.display = 'block';
+    } else {
+        show = 'send';
+        document.getElementById('show-toggle').innerText = '弹幕显示设置';
+        document.getElementById('display-settings').style.display = 'none';
+        document.getElementById('send-settings').style.display = 'block';
+    }
+});
 
 document.getElementById('size').addEventListener('click', e => {
     if (e.target === document.getElementById('size')) {
@@ -68,6 +89,90 @@ document.getElementById('colors').addEventListener('click', e => {
     color = t.style.backgroundColor;
     saveOptions();
 });
+
+document.getElementById('d-scale').addEventListener('click', e => {
+    if (e.target === document.getElementById('d-scale')) {
+        return;
+    }
+    let t = e.target;
+    scale = t.attributes.value.value;
+    saveDisplayOption();
+});
+
+document.getElementById('d-time').addEventListener('click', e => {
+    if (e.target === document.getElementById('d-time')) {
+        return;
+    }
+    let t = e.target;
+    time = t.attributes.value.value;
+    saveDisplayOption();
+});
+
+document.getElementById('d-family').addEventListener('click', e => {
+    if (e.target === document.getElementById('d-family')) {
+        return;
+    }
+    let t = e.target;
+    family = t.attributes.value.value;
+    saveDisplayOption();
+});
+
+document.getElementById('d-alpha').addEventListener('click', e => {
+    if (e.target === document.getElementById('d-alpha')) {
+        return;
+    }
+    let t = e.target;
+    if (t.nodeName === 'DIV') {
+        t = t.children[0];
+    }
+    alpha = t.style.opacity;
+    saveDisplayOption();
+});
+
+function saveDisplayOption() {
+    self.port.emit('setDisplay', {
+        scale,
+        family,
+        alpha,
+        time
+    });
+    renderDisplayOption();
+}
+
+function renderDisplayOption() {
+    DEBUG_LOG({time, scale, family, alpha});
+    [...document.getElementById('d-time').children].forEach(e => {
+        if (e.attributes.value.value === time) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
+    [...document.getElementById('d-scale').children].forEach(e => {
+        if (e.attributes.value.value === scale) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
+    [...document.getElementById('d-family').children].forEach(e => {
+        if (e.attributes.value.value === family) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+    
+    [...document.getElementById('d-alpha').children].forEach(e => {
+        if (e.children[0].style.opacity === alpha) {
+            e.className = 'active';
+        } else {
+            e.className = '';
+        }
+    });
+}
 
 function sendMessage() {
     enable = true;
@@ -155,4 +260,13 @@ self.port.on('options', options => {
     ({enable, color, fontSize, direction} = options);
     renderOptions();
 });
-self.port.emit('getOptions');
+
+self.port.on('display', options => {
+    ({scale, family, alpha, time} = options);
+    renderOptions();
+});
+
+window.setTimeout(() => {
+    self.port.emit('getOptions');
+    self.port.emit('getDisplay');
+}, 1000);
