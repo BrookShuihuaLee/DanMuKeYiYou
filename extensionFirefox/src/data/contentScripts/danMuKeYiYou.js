@@ -10,14 +10,15 @@ const
     };
 let uids = new Set();
 
-self.port.on('fly', message => {
+self.port.on('fly', input_message => {
+    let {message, display} = input_message;
     if (!uids.has(message.uid)) {
         uids.add(message.uid);
-        fly(message);
+        fly(message, display);
     }
 });
 
-function fly(message) {
+function fly(message, display) {
     DEBUG_LOG('fly', message);
     let div = window.document.createElement('div');
     div.className = 'dm--bullet';
@@ -25,6 +26,10 @@ function fly(message) {
     div.style.fontSize = `${message.fontSize}px`;
     div.style[message.direction] = `-10086px`;
     div.innerText = message.text;
+
+    div.style.fontFamily = display.family;
+    div.style.opacity = display.alpha;
+    div.style.fontSize = `${parseFloat(div.style.fontSize) * display.scale}px`;
 
     window.document.body.insertBefore(div, null);
 
@@ -45,7 +50,7 @@ function fly(message) {
                 div.style[direction] = `${time / duration * distance - div.clientWidth}px`;
             }
         }
-    })(message.direction, 5000 + Math.random() * 5000);
+    })(message.direction, (5000 + Math.random() * 5000) * display.time);
 }
 
 const versionDiv = window.document.createElement('div');
