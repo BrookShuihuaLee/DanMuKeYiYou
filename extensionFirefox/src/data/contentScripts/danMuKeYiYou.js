@@ -50,6 +50,6 @@ function fly(message) {
 
 const versionDiv = window.document.createElement('div');
 versionDiv.id = 'DANMUKYY_VERSION';
-versionDiv.innerHTML = 'Firefox 0.1.1';
+versionDiv.innerHTML = 'Firefox 0.1.2';
 versionDiv.style.display = 'none';
 window.document.body.insertBefore(versionDiv, null);
