@@ -48,8 +48,8 @@ function fly(message) {
     })(message.direction, 5000 + Math.random() * 5000);
 }
 
-const versionDiv = document.createElement('div');
+const versionDiv = window.document.createElement('div');
 versionDiv.id = 'DANMUKYY_VERSION';
 versionDiv.innerHTML = 'Firefox 0.1.1';
 versionDiv.style.display = 'none';
-document.body.insertBefore(versionDiv, null);
+window.document.body.insertBefore(versionDiv, null);
