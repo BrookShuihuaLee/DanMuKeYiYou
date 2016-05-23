@@ -14,7 +14,7 @@ window._DISPLAY_HANDLER = new class {
             scale: '1',
             family: '',
             alpha: '1',
-            speed: '1'
+            time: '1'
         }, options => {
             this.options = options;
         });
