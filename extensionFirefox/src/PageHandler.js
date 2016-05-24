@@ -32,6 +32,7 @@ export default new class {
             contentScriptWhen: 'ready',
             contentScriptFile: [self.data.url('./contentScripts/danMuKeYiYou.js')],
             contentStyleFile: [self.data.url('./contentScripts/danMuKeYiYou.css')],
+            attachTo: ["existing", "top"],
             onAttach: this._onAttach.bind(this)
         });
         this._startFlyThread();
@@ -49,6 +50,7 @@ export default new class {
     }
 
     _addTab(tabId, url, port) {
+        DEBUG_LOG('PageHandler::_addTab(...)', tabId, url, port);
         this._removeTabId(tabId);
         this._tabIdToUrlMap.set(tabId, url);
         let tabIdSet = this._urlToTabIdsMap.get(url);

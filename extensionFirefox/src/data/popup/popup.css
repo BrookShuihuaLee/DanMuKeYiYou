@@ -1,5 +1,6 @@
 body {
     width: 300px;
+    height: 410px;
     background: linear-gradient(45deg, rgba(255,255,255,0), rgba(255,255,255,1)), url('../images/popup-bg.jpg');
     background-scale: cover;
     margin: 0px;
@@ -11,6 +12,11 @@ body {
 
 #about {
     float: right;
+}
+
+#show-toggle {
+    margin-left: 46px;
+    width: 130px;
 }
 
 label {
