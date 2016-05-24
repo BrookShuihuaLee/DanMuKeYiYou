@@ -1,7 +1,7 @@
 {
   "title": "弹幕可以有",
   "name": "danmukyy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "你可以在任何网页上发弹幕，所有装这个插件的人都能看见。",
   "main": "index.js",
   "author": "Brook",
